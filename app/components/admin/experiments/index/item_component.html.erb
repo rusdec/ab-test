@@ -1,0 +1,55 @@
+<tr class="experiment">
+  <td class="text-center experimnt__id"><%= @item[:id] %></td>
+  <td class="text-left text-ellipsis experiment__title">
+    <span title="<%= @item[:title] %>"><%= @item[:title] %></span>
+  </td>
+  <td class="text-left experiment__key"><%= @item[:key] %></td>
+  <td class="text-center experiment__devices_total_count"><%= @item[:devices_total_count] %></td>
+  <td class="experiment__options">
+    <% options.each do |option| %>
+      <strong><%= option %></strong>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experiment__count-expected">
+    <% options.each do |option| %>
+      <%= count_expected(option) %>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experiment__count-real">
+    <% options.each do |option| %>
+      <strong><%= count_real(option) %></strong>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experiment__count-diff">
+    <% options.each do |option| %>
+      <%= signed_format(count_diff(option)) %>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experiment__percent-expected">
+    <% options.each do |option| %>
+      <%= percent_format(percent_expected(option)) %>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experiment__percent-real">
+    <% options.each do |option| %>
+      <strong><%= percent_format(percent_real(option)) %></strong>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experimnt__percent-diff">
+    <% options.each do |option| %>
+      <%= percent_diff(option)
+            .then { signed_format(_1) }
+            .then { percent_format(_1) } %>
+      <br/>
+    <% end %>
+  </td>
+  <td class="text-center">
+    <%= created_at %>
+  </td>
+</tr>

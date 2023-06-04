@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>AB-test admin</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <%= javascript_include_tag "/assets/admin/application" %>
+    <%= stylesheet_link_tag "/assets/admin/application", media: "all" %>
+  </head>
+  <body>
+    <div id="toasts"></div>
+    <div class="container">
+      <section class="sidebar">
+        <div class="sidebar__brand">
+          <span>АБ</span><span>-тесты<span>
+        </div>
+      </section>
+      <section class="main">
+        <%= yield %>
+      </section>
+    </div>
+  </body>
+</html>

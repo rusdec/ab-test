@@ -1,0 +1,24 @@
+<div class="table-info">
+  <strong>Всего записей: <%= @experiments_total_count %></strong>
+</div>
+<table class="table text-right">
+  <thead>
+    <tr>
+      <th class="text-center">ID</th>
+      <th class="text-left">Название</th>
+      <th class="text-left">Ключ</th>
+      <th class="text-center">Участники</th>
+      <th>Опции</th>
+      <th>Ожидание шт.</th>
+      <th>Результат шт.</th>
+      <th>Отклонение шт.</th>
+      <th>Ожидание %</th>
+      <th>Результат %</th>
+      <th>Отклонение %</th>
+      <th class="text-center">Создан</th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render Admin::Experiments::Index::ItemComponent.with_collection(prepared_items) %>
+  </tbody>
+</table>
