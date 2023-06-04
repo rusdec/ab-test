@@ -4,8 +4,7 @@ class ChooseValuesFromExperiments
   RANDOMIZER = Random.new(100)
 
   def call
-    experiments = ::FindAvailableExperimentsQuery.new(context.device_token)
-      .call.pluck(:id, :options)
+    experiments = ::FindAvailableExperimentsQuery.new(context.device_token).call.pluck(:id, :options)
 
     context.chosen_values = experiments.map do |(id, options)|
       { experiment_id: id, value: choose_value(options) }
@@ -27,12 +26,11 @@ class ChooseValuesFromExperiments
     probabilities = prepare_probabilities(experiment_options.values)
 
     r = RANDOMIZER.rand(probabilities.max)
-    
+
     probability_index = probabilities.find_index { r < _1 }
 
     experiment_options.keys[probability_index]
   end
-
 
   def prepare_probabilities(probabilities)
     probabilities.each_index do |index|

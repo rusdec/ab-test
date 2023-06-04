@@ -49,6 +49,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "shoulda-matchers", "~> 5.0"
   gem "pry"
+  gem "rubocop-rails", require: false
 end
 
 group :development do
@@ -56,3 +57,7 @@ group :development do
   # gem "spring"
 end
 
+group :test do
+  gem "simplecov", require: false
+  gem "simplecov-small-badge", require: false
+end

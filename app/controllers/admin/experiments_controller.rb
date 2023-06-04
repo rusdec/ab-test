@@ -1,18 +1,18 @@
 module Admin
-  class ExperimentsController < ActionController::Base
+  class ExperimentsController < ApplicationController
     include Pagy::Backend
 
-    layout "admin"
+    layout 'admin'
 
     def index
       pagination, experiments = pagy(Experiment.all, items: 10)
-      device_experiment_values = ExperimentValueProbabilitiesQuery.new(experiments).call
+      value_probabilities_query = ExperimentValueProbabilitiesQuery.new(experiments)
 
       render Admin::Experiments::IndexComponent.new(
         title: 'Эксперименты',
-        experiments: experiments,
-        pagination: pagination,
-        device_experiment_values: device_experiment_values
+        experiments:,
+        pagination:,
+        value_probabilities_query:
       )
     end
   end

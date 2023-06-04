@@ -1,0 +1,32 @@
+require: rubocop-rails
+
+AllCops:
+  NewCops: enable
+  Include:
+    - 'app/**/*'
+  Exclude:
+    - 'app/assets/**/*'
+    - 'app/**/*html.erb'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Style/NumericPredicate:
+  Exclude:
+    # x > 0 быстрее чем #positive?
+    - 'app/interactors/choose_values_from_experiments.rb'
+
+Rails/SkipsModelValidations:
+  Exclude:
+    # в данном случае оправдано т.к.:
+    # - валидировать нечего, значения передаются
+    #   из других моделей, где проходят валидацию
+    # - inser_all! работает кратно быстрее чем create,
+    #   иначе создание тысяч записей будет крайне медленным
+    - 'app/interactors/create_values_for_device.rb'

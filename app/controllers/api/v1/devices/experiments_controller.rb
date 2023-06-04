@@ -11,7 +11,7 @@ module Api
             .pluck(:key, :value)
             .to_h
 
-          render json: json, status: :ok
+          render json:, status: :ok
         end
       end
     end

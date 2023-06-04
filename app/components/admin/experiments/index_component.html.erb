@@ -3,7 +3,7 @@
   render Admin::Experiments::Index::ItemsComponent.new(
     experiments: @experiments,
     experiments_total_count: @pagination.count,
-    device_experiment_values: @device_experiment_values
+    value_probabilities_query: @value_probabilities_query
   )
 %>
 <div class="actions">

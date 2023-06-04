@@ -42,7 +42,7 @@ module Admin
         end
 
         def percent_format(value)
-         "#{value}%" 
+          "#{value}%"
         end
       end
     end

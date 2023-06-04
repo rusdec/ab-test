@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Experiments', type: :request do
-  describe 'GET api/v1/devices/experiments' do
+  describe 'GET /api/v1/devices/experiments' do
     scenario 'returns server response less than 100ms', slow_benchmark: true do
       slow_benchmark_warning('GET api/v1/devices/experiments')
 

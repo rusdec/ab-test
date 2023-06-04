@@ -2,7 +2,7 @@ class CreateValuesForDevice
   include Interactor
 
   def call
-    return if context.chosen_values&.empty?
+    return if context.chosen_values.empty?
 
     prepared_values = context.chosen_values.map do |chosen_value|
       {
@@ -12,6 +12,6 @@ class CreateValuesForDevice
       }
     end
 
-    DeviceExperimentValue.insert_all(prepared_values)
+    DeviceExperimentValue.insert_all!(prepared_values)
   end
 end

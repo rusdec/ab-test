@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Experiments', type: :request do
-  describe 'GET api/v1/devices/experiments' do
+  describe 'GET /api/v1/devices/experiments' do
     scenario 'registers unregistered device token' do
       token = "unregistered-token-#{rand(1..100)}"
 

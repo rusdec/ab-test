@@ -52,22 +52,22 @@ body {
   font-size: 1em;
 }
 
+.btn:hover {
+  opacity: .85;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: .85;
+  cursor: not-allowed;
+}
+
 .btn.refresh {
   background: #66bfbf;
 }
 
 #send-device-token {
   background: #f76b8a;
-}
-
-#send-device-token:hover {
-  opacity: .85;
-  cursor: pointer;
-}
-
-#send-device-token:disabled {
-  opacity: .85;
-  cursor: not-allowed;
 }
 
 table {
