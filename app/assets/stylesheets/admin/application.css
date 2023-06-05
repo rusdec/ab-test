@@ -8,7 +8,7 @@ body {
 
 .container {
   display: flex;
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: fixed;
 }
@@ -47,8 +47,8 @@ body {
 
 .btn {
   color: white;
-  border: none;
-  padding: 5px 10px;
+  border: 3px solid white;
+  padding: 10px;
   font-size: 1em;
 }
 
@@ -64,10 +64,12 @@ body {
 
 .btn.refresh {
   background: #66bfbf;
+  border-color: #91dfdf;
 }
 
 #send-device-token {
   background: #f76b8a;
+  border-color: #fb90a7;
 }
 
 table {
@@ -79,8 +81,9 @@ table {
 }
 
 table thead th {
-  padding: 5px 0 20px 0;
+  padding: 5px 1px 20px 1px;
   border-bottom: 1px solid black;
+  white-space: nowrap;
 }
 
 table .experiment__title {
@@ -91,7 +94,7 @@ table .experiment__title {
 }
 
 table tbody td {
-  padding: 3px 0;
+  padding: 3px 1px;
 }
 
 table tbody tr:nth-child(odd) {
@@ -145,6 +148,7 @@ ul.pagination {
   align-items: flex-end;
   font-size: .9em;
   z-index: 1;
+  overflow: hidden;
 }
 
 .toast {
@@ -154,12 +158,15 @@ ul.pagination {
   display: flex;
   flex-direction: column;
   opacity: .9;
+  border-left: 5px solid white;
 }
 
 .toast-success {
   background: #66bfbf;
+  border-color: #91dfdf;
 }
 
 .toast-error {
   background: #f76b8a;
+  border-color: #fb90a7;
 } 

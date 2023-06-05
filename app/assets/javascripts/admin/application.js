@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM content loaded!')
-
   const toasts = document.getElementById('toasts');
   const createToast = (color, title, messages = []) => {
     const toastElement = document.createElement('div')
@@ -17,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     toasts.append(toastElement);
-    setTimeout(() => toastElement.remove(), 3000)
+    setTimeout(() => toastElement.remove(), 2500)
   }
 
   document.getElementById('send-device-token').addEventListener('click', (event) => {
