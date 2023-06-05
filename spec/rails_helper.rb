@@ -6,6 +6,7 @@ require_relative '../config/environment'
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 
+require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter '/app/channels'
   add_filter '/app/jobs'

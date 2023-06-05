@@ -63,8 +63,8 @@ body {
 }
 
 .btn.refresh {
-  background: #66bfbf;
-  border-color: #91dfdf;
+  background: #398afc;
+  border-color: #6aa8fe;
 }
 
 #send-device-token {
@@ -162,8 +162,8 @@ ul.pagination {
 }
 
 .toast-success {
-  background: #66bfbf;
-  border-color: #91dfdf;
+  background: #398afc;
+  border-color: #6aa8fe;
 }
 
 .toast-error {
