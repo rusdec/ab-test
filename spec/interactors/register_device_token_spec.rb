@@ -23,7 +23,10 @@ RSpec.describe RegisterDeviceToken do
           invalid_token = build(:device_token, :invalid).token
 
           expect { described_class.call(token: invalid_token) }
-            .to raise_error(ActiveRecord::RecordInvalid)
+            .to raise_error(
+              Sequel::ValidationFailed,
+              'token is not present, token is shorter than 1 characters'
+            )
         end
       end
     end

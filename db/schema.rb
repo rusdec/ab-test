@@ -11,13 +11,8 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_05_30_184245) do
-  create_table "device_experiment_values", force: :cascade do |t|
-    t.integer "device_token_id", null: false
-    t.integer "experiment_id", null: false
-    t.string "value"
-    t.index ["device_token_id"], name: "index_device_experiment_values_on_device_token_id"
-    t.index ["experiment_id"], name: "index_device_experiment_values_on_experiment_id"
-  end
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "device_tokens", force: :cascade do |t|
     t.string "token"
@@ -26,16 +21,26 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_30_184245) do
     t.index ["token"], name: "index_device_tokens_on_token", unique: true
   end
 
+  create_table "distributed_options", force: :cascade do |t|
+    t.bigint "device_token_id", null: false
+    t.bigint "experiment_id", null: false
+    t.string "value", limit: 100, null: false
+    t.index ["device_token_id"], name: "index_distributed_options_on_device_token_id"
+    t.index ["experiment_id"], name: "index_distributed_options_on_experiment_id"
+  end
+
   create_table "experiments", force: :cascade do |t|
     t.string "title", null: false
-    t.text "description"
-    t.string "key", null: false
+    t.string "key", limit: 100, null: false
     t.json "options", null: false
+    t.json "probability_line", null: false
+    t.integer "distribution_type", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_at"], name: "index_experiments_on_created_at"
+    t.index ["distribution_type"], name: "index_experiments_on_distribution_type"
   end
 
-  add_foreign_key "device_experiment_values", "device_tokens"
-  add_foreign_key "device_experiment_values", "experiments"
+  add_foreign_key "distributed_options", "device_tokens"
+  add_foreign_key "distributed_options", "experiments"
 end

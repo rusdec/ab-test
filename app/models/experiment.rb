@@ -1,7 +1,70 @@
-class Experiment < ApplicationRecord
-  has_many :device_experiment_values, dependent: :destroy
+class Experiment < Sequel::Model
+  plugin :validation_helpers
+  plugin :association_dependencies
+  plugin :timestamps, update_on_create: true
+  plugin :enum
 
-  validates :title, presence: true, length: { minimum: 1, maximum: 250 }
-  validates :description, allow_nil: true, length: { maximum: 1000 }
-  validates :key, presence: true, length: { minimum: 1, maximum: 250 }
+  enum :distribution_type, percentage: 0, uniform: 1
+
+  one_to_many :distributed_options
+  add_association_dependencies distributed_options: :destroy
+
+  def before_save
+    set_distribution_type
+    set_probability_line
+  end
+
+  def validate
+    super
+
+    validates_presence [:title, :key, :options]
+    validates_min_length 1, [:title, :key]
+    validates_max_length 100, :key
+    validates_max_length 250, :title
+
+    validates_options_value_length
+    validates_options_type
+    validates_probabilities_sum
+  end
+
+  private
+
+  def set_distribution_type
+    if options.size == 1
+      self.distribution_type = :percentage
+    else
+      uniform_difference = 1
+      min, max = options.values.minmax
+
+      self.distribution_type = (max - min) <= uniform_difference ? :uniform : :percentage
+    end
+  end
+
+  def set_probability_line
+    self.probability_line = options.values
+
+    probability_line.each_index do |index|
+      probability_line[index] += probability_line[index - 1] if index > 0
+    end
+  end
+
+  def validates_options_value_length
+    return if options.keys.all? { _1.length <= 100 }
+
+    errors.add(:option, 'values length should be less than 100')
+  end
+
+  def validates_options_type
+    return if options.is_a?(Sequel::Postgres::JSONHash)
+
+    errors.add(:options, 'should be a hash')
+  end
+
+  def validates_probabilities_sum
+    sum = options.values.sum(&:to_d)
+
+    return if sum >= 99.9.to_d && sum <= 100
+
+    errors.add(:options, 'sum of probabilities is equal 99.9% or 100%')
+  end
 end

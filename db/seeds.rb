@@ -7,7 +7,7 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 def create_appbooster_data
- Experiment.create!([
+ Experiment.create([
    {
      title: 'Цвет кнопки',
      description: 'У нас есть гипотеза, что цвет кнопки «купить» влияет на конверсию в покупку',
@@ -16,7 +16,9 @@ def create_appbooster_data
        '#FF0000' => 33.3,
        '#00FF00' => 33.3,
        '#0000FF' => 33.3
-     }
+     }.to_json,
+     probabilities: [33.3, 66.6, 99.9].to_json,
+     distrubution: 1
    },
    {
      title: 'Стоимость покупки',
@@ -27,49 +29,63 @@ def create_appbooster_data
        '20' => 10,
        '50' => 5,
        '5'  => 10
-     }
+     }.to_json,
+     probabilities: [75, 85, 90, 100].to_json,
+     distribution: 0
    }
  ])
 end
 
 def create_experiments(count)
-  count = 3000 if count > 3000
+  count = 6000 if count > 6000
   experiments = []
-  random_options = ->(n) do
-    [
-      {
-        "value-a#{n}": 10,
-        "value-b#{n}": 60,
-        "value-c#{n}": 30
-      },
-      {
-        "value-d#{n}": 75,
-        "value-e#{n}": 10,
-        "value-g#{n}": 10,
-        "value-h#{n}": 5
-      },
-      {
-        "value-i#{n}": 44,
-        "value-j#{n}": 55,
-        "value-l#{n}": 1,
-      }
-    ].sample
-  end
 
   puts "Creating #{count} experiments..."
-
   count.times do |n|
+    options = random_options(n)
+
     experiments << {
       title: "Эксперимент-#{n}",
-      description: nil,
       key: "key-#{n}",
-      options: random_options[n]
+      options: options.to_json,
+      probability_line: set_probability_line(options).to_json,
+      distribution_type: set_distribution_type(options),
+      created_at: Time.now,
+      updated_at: Time.now
     }
   end
 
-  Experiment.insert_all(experiments)
+  Experiment.multi_insert(experiments)
 
   puts "Expeiments: #{Experiment.count}"
+end
+
+def random_options(n)
+  [
+    { "value-i#{n}": 44,   "value-j#{n}": 55,   "value-l#{n}": 1 },
+    { "value-a#{n}": 10,   "value-b#{n}": 60,   "value-c#{n}": 30 },
+    { "value-i#{n}": 33.3, "value-j#{n}": 33.3, "value-l#{n}": 33.3 },
+    { "value-d#{n}": 75,   "value-e#{n}": 10,   "value-g#{n}": 10, "value-h#{n}": 5 },
+  ].sample
+end
+
+def set_distribution_type(options)
+  uniform_difference = 1
+  min, max = options.values.minmax
+  
+  enum = { percentage: 0, uniform: 1 }
+
+  (max - min) <= uniform_difference ? enum[:uniform] : enum[:percentage]
+end
+
+def set_probability_line(options)
+  probability_line = options.values
+
+  probability_line.each_index do |index|
+    probability_line[index] += probability_line[index - 1] if index > 0
+  end
+
+  probability_line
 end
 
 def add_device_tokens_to_experiments(count)
@@ -80,10 +96,10 @@ def add_device_tokens_to_experiments(count)
   end
 
   puts "Devices: #{DeviceToken.count}"
-  puts "DeviceExperimentValues: #{DeviceExperimentValue.count}"
+  puts "DeviceExperimentValues: #{DistributedOption.count}"
 end
 
-#create_experiments(1500)
-#add_device_tokens_to_experiments(800)
+create_experiments(5)
+add_device_tokens_to_experiments(5)
 
-create_appbooster_data
+#create_appbooster_data

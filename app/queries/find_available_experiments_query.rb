@@ -5,8 +5,13 @@ class FindAvailableExperimentsQuery
   end
 
   def call
+    token_created_at = @device_token.created_at
+    id = @device_token.id
+
     Experiment
-      .where('experiments.created_at <= ?', @device_token.created_at)
-      .where.not(id: @device_token.device_experiment_values.select(:experiment_id))
+      .where { created_at <= token_created_at }
+      .exclude(
+        id: DistributedOption.select(:experiment_id).where(device_token_id: id)
+      )
   end
 end

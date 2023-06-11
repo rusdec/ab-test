@@ -7,7 +7,12 @@ ruby "3.2.1"
 gem "rails", "~> 7.0.5"
 
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
+# gem "sqlite3", "~> 1.4"
+gem "pg", "~> 1.5.0"
+gem "sequel"
+gem "sequel_pg", "~> 1.0", require: "sequel"
+gem "redis", "~> 5.0"
+gem "sidekiq", "~> 7.0"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
@@ -48,6 +53,7 @@ group :development, :test do
   gem "rspec-rails", "~> 6.0.0"
   gem "factory_bot_rails"
   gem "shoulda-matchers", "~> 5.0"
+  gem "rspec_sequel_matchers", "~> 0.0"
   gem "pry"
   gem "rubocop-rails", require: false
 end
@@ -59,5 +65,4 @@ end
 
 group :test do
   gem "simplecov", require: false
-  gem "simplecov-small-badge", require: false
 end

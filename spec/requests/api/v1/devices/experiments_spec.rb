@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Experiments', type: :request do
+RSpec.describe 'Api::V1::Experiments', type: :request, redis: true do
   describe 'GET /api/v1/devices/experiments' do
     scenario 'registers unregistered device token' do
       token = "unregistered-token-#{rand(1..100)}"
@@ -19,7 +19,7 @@ RSpec.describe 'Api::V1::Experiments', type: :request do
 
       expect {
         get api_v1_devices_experiments_url, headers: { 'Device-Token' => token }
-      }.to change(DeviceExperimentValue, :count).by(experiments.count)
+      }.to change(DistributedOption, :count).by(experiments.count)
     end
 
     scenario 'does not create device experiment values twice for device token' do
@@ -33,7 +33,7 @@ RSpec.describe 'Api::V1::Experiments', type: :request do
         rand(2..5).times do
           get api_v1_devices_experiments_url, headers: { 'Device-Token' => token }
         end
-      }.to_not change(DeviceExperimentValue, :count)
+      }.to_not change(DistributedOption, :count)
     end
 
     scenario 'does not create device token experiment for experiments created after token was registered' do
@@ -47,7 +47,7 @@ RSpec.describe 'Api::V1::Experiments', type: :request do
 
       expect {
         get api_v1_devices_experiments_url, headers: { 'Device-Token' => token }
-      }.to_not change(DeviceExperimentValue, :count)
+      }.to_not change(DistributedOption, :count)
     end
 
     scenario 'returns device experiment values of device token' do

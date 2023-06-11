@@ -2,12 +2,12 @@
 <%=
   render Admin::Experiments::Index::ItemsComponent.new(
     experiments: @experiments,
-    experiments_total_count: @pagination.count,
-    value_probabilities_query: @value_probabilities_query
+    experiments_total_count: @pagination.count
   )
 %>
 <div class="actions">
   <div>
+    <input id="token-count" type="number" min="1" max="600" value="1"/>
     <button class="btn" id="send-device-token">Отправить случайный токен</button>
     <button class="btn refresh" onClick="window.location.reload()">Обновить данные</button>
   </div>
