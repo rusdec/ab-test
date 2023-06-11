@@ -1,0 +1,3 @@
+---
+:queues:
+  - distributed_options_storage_refresh_cache

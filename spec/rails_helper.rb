@@ -41,6 +41,9 @@ rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
 RSpec.configure do |config|
+  config.include RSpec::TestHelpers
+  config.include RspecSequel::Matchers
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -77,5 +80,16 @@ RSpec.configure do |config|
   # For request benchmark test use rspec --tag request_benchmark 
   config.filter_run_excluding slow_benchmark: true
 
-  config.include TestHelpers
+  config.around(:each) do |example|
+    DB.transaction(rollback: :always, auto_savepoint: true) { example.run }
+  end
+
+  config.around(:each, redis: true) do |example|
+    RedisConnection.flushall
+    begin
+      example.run
+    ensure
+      RedisConnection.flushall
+    end
+  end
 end

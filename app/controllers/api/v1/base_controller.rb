@@ -9,7 +9,7 @@ module Api
 
       def token!
         @token = begin
-          token = request.headers['Device-Token']
+          token = params[:token] || request.headers['Device-Token']
 
           raise Error::EmptyToken unless token
 

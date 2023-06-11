@@ -7,7 +7,7 @@ RSpec.describe FindAvailableExperimentsQuery do
       device_token = create(:device_token)
       create_list(:experiment, rand(2..5))
 
-      relation = described_class.new(device_token).call
+      relation = described_class.new(device_token).call.to_a
 
       expect(relation).to eq(experiments_created_before)
     end
@@ -18,10 +18,10 @@ RSpec.describe FindAvailableExperimentsQuery do
 
       experiment_with_created_value = experiments.sample
 
-      create(:device_experiment_value, device_token: device_token,
+      create(:distributed_option, device_token: device_token,
              experiment: experiment_with_created_value)
 
-      relation = described_class.new(device_token).call
+      relation = described_class.new(device_token).call.to_a
 
       expected_experiments = experiments.reject { _1 == experiment_with_created_value }
 
@@ -33,10 +33,10 @@ RSpec.describe FindAvailableExperimentsQuery do
       device_token = create(:device_token)
       other_device_token = create(:device_token)
 
-      create(:device_experiment_value, device_token: other_device_token,
+      create(:distributed_option, device_token: other_device_token,
              experiment: experiments.sample)
 
-      relation = described_class.new(device_token).call
+      relation = described_class.new(device_token).call.to_a
 
       expect(relation).to eq(experiments)
     end

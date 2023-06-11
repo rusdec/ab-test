@@ -1,9 +1,9 @@
-class CreateDeviceExperimentValues < ActiveRecord::Migration[7.0]
+class CreateDistributedOptions < ActiveRecord::Migration[7.0]
   def change
-    create_table :device_experiment_values do |t|
+    create_table :distributed_options do |t|
       t.references :device_token, null: false, foreign_key: true
       t.references :experiment, null: false, foreign_key: true
-      t.string :value
+      t.string :value, null: false, limit: 100
     end
   end
 end

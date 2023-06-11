@@ -4,14 +4,12 @@ module Admin
   module Experiments
     class IndexComponent < ViewComponent::Base
       # @param [String] title
-      # @param [Experiment::ActiveRecord_Relation] experiments
+      # @param [Sequel::Posgres::Dataset] experiments
       # @param [Pagy] pagination
-      # @param [ExperimentValueProbabilitiesQuery] value_probabilities_query
-      def initialize(title:, experiments:, pagination:, value_probabilities_query:)
+      def initialize(title:, experiments:, pagination:)
         @title = title
         @experiments = experiments
         @pagination = pagination
-        @value_probabilities_query = value_probabilities_query
       end
     end
   end

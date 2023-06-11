@@ -5,14 +5,16 @@ module Admin
     layout 'admin'
 
     def index
-      pagination, experiments = pagy(Experiment.all, items: 9)
-      value_probabilities_query = ExperimentValueProbabilitiesQuery.new(experiments)
+      pagination, experiments = pagy(
+        Experiment.dataset.order(Sequel.desc(:created_at)),
+        items: 9,
+        count: Experiment.count
+      )
 
       render Admin::Experiments::IndexComponent.new(
         title: 'Эксперименты',
         experiments:,
-        pagination:,
-        value_probabilities_query:
+        pagination:
       )
     end
   end

@@ -139,6 +139,10 @@ ul.pagination {
   color: white;
 }
 
+#token-count {
+  padding: 13px;
+}
+
 #toasts {
   position: absolute;
   top: 15px;

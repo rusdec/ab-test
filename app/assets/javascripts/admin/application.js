@@ -22,25 +22,51 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault();
     event.target.disabled = true;
 
-    const token = `token-${Date.now()}`;
-    const startedAt = new Date();
+    const tokenCountElement = document.getElementById('token-count');
+    const tokenCount = Number.parseInt(tokenCountElement.value);
+    console.log(tokenCount);
+    let timeout = 500;
 
-    fetch('/api/v1/devices/experiments', {
-      headers: { "Device-Token": token }
-    }).then(response => {
-      if (response.ok) {
-        createToast(
-          'success',
-          `Токен отправлен!`,
-          [token, `Ответ сервера ${new Date() - startedAt}мс`]
-        );
+    for(let i = 0; i < tokenCount; i++) {
+      setTimeout(() => {
+        if (tokenCountElement.value > 1) {
+          tokenCountElement.value -= 1;
+        }
 
-        return response.json();
-      } else {
-        throw new Error(`Ответ сервера ${response.status}`);
-      }
-    }).then(json => console.log(token, json))
-      .catch(error => createToast('error', 'Ошибка!', [error.message]))
-      .finally(() => event.target.disabled = false);
+        const token = `token-${Date.now()}`;
+        const startedAt = new Date();
+        fetch('/api/v1/devices/experiments', {
+          headers: { "Device-Token": token }
+        }).then(response => {
+          if (response.ok) {
+            createToast(
+              'success',
+              `Токен отправлен!`,
+              [token, `Ответ сервера ${new Date() - startedAt}мс`]
+            );
+
+            return response.json();
+          } else {
+            throw new Error(`Статус ответа ${response.status}`);
+          }
+        })
+        .then(json => console.log(token, json))
+        .catch(error => createToast('error', 'Ошибка!', [error.message]))
+        .finally(() => event.target.disabled = false);
+      }, timeout += 100);
+     }
   });
+
+
+  document.getElementById('token-count').addEventListener('change', (event) => {
+    const value = Number.parseInt(event.target.value)
+    const min = Number.parseInt(event.target.min);
+    const max = Number.parseInt(event.target.max);
+
+    if (value < min) {
+      event.target.value = min;
+    } else if (value > max) {
+      event.target.value  = max;
+    }
+  })
 });

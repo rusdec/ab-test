@@ -38,7 +38,7 @@ module Admin
         end
 
         def signed_format(value)
-          value.positive? ? "+#{value}" : value
+          value > 0 ? "+#{value}" : value
         end
 
         def percent_format(value)

@@ -18,9 +18,10 @@ Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
 
 Style/NumericPredicate:
-  Exclude:
-    # x > 0 быстрее чем #positive?
-    - 'app/interactors/choose_values_from_experiments.rb'
+  EnforcedStyle: comparison
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
 
 Rails/SkipsModelValidations:
   Exclude:
@@ -29,4 +30,8 @@ Rails/SkipsModelValidations:
     #   из других моделей, где проходят валидацию
     # - inser_all! работает кратно быстрее чем create,
     #   иначе создание тысяч записей будет крайне медленным
-    - 'app/interactors/create_values_for_device.rb'
+    - 'app/interactors/create_distributed_options_for_device.rb'
+
+Lint/MissingSuper:
+  Exclude:
+    - 'app/components/**/*rb'
