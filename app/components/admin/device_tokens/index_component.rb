@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Admin
-  module Experiments
+  module DeviceTokens
     class IndexComponent < ViewComponent::Base
       # @param [String] title
-      # @param [Sequel::Posgres::Dataset] items Experiment
+      # @param [Sequel::Posgres::Dataset] device_items
       # @param [Pagy] pagination
       def initialize(title:, items:, pagination:)
         @title = title

@@ -3,10 +3,7 @@ require: rubocop-rails
 AllCops:
   NewCops: enable
   Include:
-    - 'app/**/*'
-  Exclude:
-    - 'app/assets/**/*'
-    - 'app/**/*html.erb'
+    - 'app/**/*.rb'
 
 Style/Documentation:
   Enabled: false

@@ -1,15 +1,15 @@
-<h1>Эксперименты</h1>
+<h1><%= @title %></h1>
 <%=
   render Admin::Experiments::Index::ItemsComponent.new(
-    experiments: @experiments,
-    experiments_total_count: @pagination.count
+    items: @items,
+    items_total_count: @pagination.count
   )
 %>
 <div class="actions">
   <div>
     <input id="token-count" type="number" min="1" max="600" value="1"/>
-    <button class="btn" id="send-device-token">Отправить случайный токен</button>
-    <button class="btn refresh" onClick="window.location.reload()">Обновить данные</button>
+    <button class="btn btn--danger" id="send-device-token">Отправить случайный токен</button>
+    <button class="btn btn--primary" id="refresh" onClick="window.location.reload()">Обновить данные</button>
   </div>
-  <%= render Admin::Experiments::Index::PaginationComponent.new(pagination: @pagination) %>
+  <%= render Admin::Common::PaginationComponent.new(pagination: @pagination, resource: :experiments) %>
 </div>

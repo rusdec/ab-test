@@ -45,3 +45,7 @@ URL: *GET /api/v1/devices/experiments*
 **Статистика по экcпериментам**
 
 URL: */admin/experiments*
+
+**Токены**
+
+URL: */admin/device_tokens*

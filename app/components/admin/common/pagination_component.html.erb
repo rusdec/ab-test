@@ -1,0 +1,23 @@
+<% if show? %>
+  <ul class="pagination">
+    <% if show_first? %>
+      <li class="page-item"> <%= link(1) %> </li>
+      <li class="page-item">...</li>
+    <% end %>
+
+    <% if prev %>
+      <li class="page-item"> <%= link(prev) %> </li>
+    <% end %>
+
+    <li class="page-item active"> <%= link(page) %> </li>
+
+    <% if self.next %>
+      <li class="page-item"> <%= link(self.next) %> </li>
+    <% end %>
+
+    <% if show_last? %>
+      <li class="page-item">...</li>
+      <li class="page-item"> <%= link(last) %> </li>
+    <% end %>
+  </ul>
+<% end %>

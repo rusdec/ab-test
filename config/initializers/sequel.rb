@@ -7,7 +7,7 @@ DB = Sequel.connect(
   port: config['port'],
   database: config['database'],
   max_connections: 10,
-  logger: Rails.env == 'test' ? nil : ActiveSupport::Logger.new(STDOUT)
+  logger: Rails.logger
 )
 
 DB.extension(:pg_json)

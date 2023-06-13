@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_30_184245) do
     t.index ["token"], name: "index_device_tokens_on_token", unique: true
   end
 
-  create_table "distributed_options", force: :cascade do |t|
+  create_table "distributed_options", id: false, force: :cascade do |t|
     t.bigint "device_token_id", null: false
     t.bigint "experiment_id", null: false
     t.string "value", limit: 100, null: false

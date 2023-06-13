@@ -83,13 +83,4 @@ RSpec.configure do |config|
   config.around(:each) do |example|
     DB.transaction(rollback: :always, auto_savepoint: true) { example.run }
   end
-
-  config.around(:each, redis: true) do |example|
-    RedisConnection.flushall
-    begin
-      example.run
-    ensure
-      RedisConnection.flushall
-    end
-  end
 end

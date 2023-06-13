@@ -3,6 +3,15 @@ require 'rails_helper'
 RSpec.describe Experiment, type: :model do
   it { is_expected.to have_one_to_many(:distributed_options) }
 
+  it 'refreshes uniform strategy distribution cache after save' do
+    expected_method = :refresh_uniform_cache
+    allow(ValueDistributor).to receive(expected_method).and_call_original
+
+    3.times { create(:experiment) }
+
+    expect(ValueDistributor).to have_received(expected_method).exactly(3).times
+  end
+
   describe 'validations' do
     subject { build(:experiment) }
 

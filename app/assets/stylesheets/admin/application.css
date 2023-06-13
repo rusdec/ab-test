@@ -31,6 +31,20 @@ body {
   color: #f76b8a;
 }
 
+.sidebar a {
+  padding: 10px 5px;
+  text-decoration: none;
+  color: #262626;
+}
+
+.sidebar a:hover {
+  font-weight: bold;
+}
+
+.sidebar a.active {
+  font-weight: bold;
+}
+
 .main {
   padding: 10px 10px 10px 20px;
   display: flex;
@@ -62,12 +76,12 @@ body {
   cursor: not-allowed;
 }
 
-.btn.refresh {
+.btn.btn--primary {
   background: #398afc;
   border-color: #6aa8fe;
 }
 
-#send-device-token {
+.btn.btn--danger {
   background: #f76b8a;
   border-color: #fb90a7;
 }
@@ -165,12 +179,17 @@ ul.pagination {
   border-left: 5px solid white;
 }
 
-.toast-success {
-  background: #398afc;
-  border-color: #6aa8fe;
+.toast:hover {
+  opacity: .85;
+  cursor: pointer;
 }
 
-.toast-error {
+.toast--success {
+  background: #45BDA2;
+  border-color: #0CA482;
+}
+
+.toast--error {
   background: #f76b8a;
   border-color: #fb90a7;
 } 

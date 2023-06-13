@@ -13,15 +13,26 @@ FactoryBot.define do
         white: 5
       }
     end
-    #probability_line { self.set_probability_line }
+
+    trait :percentage do
+      distribution_type { :percentage }
+      options do
+        {
+          cyan: 75,
+          blue: 10,
+          red: 10,
+          white: 5
+        }
+    end
+    end
 
     trait :uniform do
       distribution_type { :uniform }
       options do
         {
-          cyan: 33.3,
-          blue: 33.3,
-          red:  33.3
+          cyan: 33.3.to_d,
+          blue: 33.3.to_d,
+          red:  33.3.to_d
         }
       end
     end

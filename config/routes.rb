@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :experiments, only: :index
+    resources :device_tokens, only: :index
   end
 
   namespace :api do

@@ -4,15 +4,15 @@ module Admin
   module Experiments
     module Index
       class ItemsComponent < ViewComponent::Base
-        # @param [Sequel::Postgres::Dataset] experiments
-        # @param [Integer] experimnets_total_count
-        def initialize(experiments:, experiments_total_count:)
-          @experiments = experiments
-          @experiments_total_count = experiments_total_count
+        # @param [Sequel::Postgres::Dataset] items Experiment
+        # @param [Integer] items_total_count
+        def initialize(items:, items_total_count:)
+          @items = items
+          @items_total_count = items_total_count
         end
 
         def prepared_items
-          @experiments.map do |exp|
+          @items.map do |exp|
             exp_distributed_values = distributed_options_hash[exp.id] || {}
             count_total = exp_distributed_values.values.sum || 0
 
@@ -50,7 +50,7 @@ module Admin
         private
 
         def distributed_options_hash
-          @distributed_options_hash ||= DistributedOptionsGroupAndCountQuery.new(@experiments)
+          @distributed_options_hash ||= DistributedOptionsGroupAndCountQuery.new(@items)
             .call.each_with_object({}) do |item, obj|
               obj[item.experiment_id] ||= {}
               obj[item.experiment_id][item[:value]] = item[:count]

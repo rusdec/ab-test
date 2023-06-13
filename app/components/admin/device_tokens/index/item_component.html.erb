@@ -1,0 +1,12 @@
+<tr class="device_token">
+  <td class="text-center"><%= @item[:id] %></td>
+  <td class="text-left text-ellipsis">
+    <span title="<%= @item[:token] %>"><%= @item[:token] %></span>
+  </td>
+  <td class="text-right"><%= created_at %></td>
+  <td>
+    <button class="btn btn--primary" data-token="<%= @item[:token] %>">
+      Получить значения по API
+    </button>
+  </td>
+</tr>

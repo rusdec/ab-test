@@ -3,25 +3,17 @@ require 'rails_helper'
 RSpec.describe ChooseOptionsForDistribution do
   describe '.call' do
     context 'when experiment distribution type is percentage' do
-      it 'chooses values from available experiments using random and probabilities' do
+      it 'chooses values from available experiments using value distributor' do
         experiments = [
-          create(:experiment, options: { green: 40, blue: 60 }),
-          create(:experiment, options: { right: 10, left: 80, center: 10 }),
-          create(:experiment, options: { small: 55, big:  45 })
+          create(:experiment, :percentage, options: { green: 40, blue: 60 }),
+          create(:experiment, :percentage, options: { right: 10, left: 80, center: 10 }),
+          create(:experiment, :uniform, options: { small: 50, big: 50 })
         ]
 
         device_token = create(:device_token)
 
-        allow(ChooseOptionsForDistribution::RANDOMIZER).to receive(:rand).and_return(
-          39, # green
-          99, # center
-          56, # big
-        )
-
-        query = instance_double('FindAvailableExperimentsQuery')
-        allow(query).to receive(:call).and_return(experiments)
-        allow(FindAvailableExperimentsQuery).to receive(:new)
-          .with(device_token).and_return(query)
+        allow(ValueDistributor).to receive(:next_value)
+          .and_return('green', 'center', 'big')
 
         context = described_class.call(device_token: device_token)
 

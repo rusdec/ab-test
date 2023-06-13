@@ -1,0 +1,16 @@
+<div class="table-info">
+  <strong>Всего записей: <%= @items_total_count %></strong>
+</div>
+<table class="table text-right">
+  <thead>
+    <tr>
+      <th class="text-center">ID</th>
+      <th class="text-left">Токен</th>
+      <th class="text-right">Создан</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render Admin::DeviceTokens::Index::ItemComponent.with_collection(prepared_items) %>
+  </tbody>
+</table>

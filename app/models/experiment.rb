@@ -10,8 +10,16 @@ class Experiment < Sequel::Model
   add_association_dependencies distributed_options: :destroy
 
   def before_save
+    super
+
     set_distribution_type
     set_probability_line
+  end
+
+  def after_save
+    super
+
+    ValueDistributor.refresh_uniform_cache
   end
 
   def validate
@@ -22,9 +30,7 @@ class Experiment < Sequel::Model
     validates_max_length 100, :key
     validates_max_length 250, :title
 
-    validates_options_value_length
-    validates_options_type
-    validates_probabilities_sum
+    validates_options
   end
 
   private
@@ -48,23 +54,36 @@ class Experiment < Sequel::Model
     end
   end
 
-  def validates_options_value_length
-    return if options.keys.all? { _1.length <= 100 }
+  def validates_options
+    return unless validates_options_type
 
-    errors.add(:option, 'values length should be less than 100')
+    validates_options_value_length
+    validates_probabilities_sum
   end
 
   def validates_options_type
-    return if options.is_a?(Sequel::Postgres::JSONHash)
+    return true if options.is_a?(Sequel::Postgres::JSONHash)
 
     errors.add(:options, 'should be a hash')
+
+    false
+  end
+
+  def validates_options_value_length
+    return true if options.keys.all? { _1.length <= 100 }
+
+    errors.add(:option, 'values length should be less than 100')
+
+    false
   end
 
   def validates_probabilities_sum
     sum = options.values.sum(&:to_d)
 
-    return if sum >= 99.9.to_d && sum <= 100
+    return true if sum >= 99.9.to_d && sum <= 100
 
     errors.add(:options, 'sum of probabilities is equal 99.9% or 100%')
+
+    false
   end
 end

@@ -5,7 +5,7 @@ module Admin
     layout 'admin'
 
     def index
-      pagination, experiments = pagy(
+      pagination, items = pagy(
         Experiment.dataset.order(Sequel.desc(:created_at)),
         items: 9,
         count: Experiment.count
@@ -13,7 +13,7 @@ module Admin
 
       render Admin::Experiments::IndexComponent.new(
         title: 'Эксперименты',
-        experiments:,
+        items:,
         pagination:
       )
     end

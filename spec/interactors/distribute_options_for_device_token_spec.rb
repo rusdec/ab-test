@@ -17,7 +17,7 @@ RSpec.describe DistributeOptionsForDeviceToken do
     end
 
     let(:created_distributed_options) do
-      DistributedOption.last(experiments.count)
+      DistributedOption.order(:experiment_id).last(experiments.count)
     end
 
     it 'creates device experiment values from available experiments' do

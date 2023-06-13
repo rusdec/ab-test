@@ -7,33 +7,30 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 def create_appbooster_data
- Experiment.create([
-   {
-     title: 'Цвет кнопки',
-     description: 'У нас есть гипотеза, что цвет кнопки «купить» влияет на конверсию в покупку',
-     key: 'button_color',
-     options: {
-       '#FF0000' => 33.3,
-       '#00FF00' => 33.3,
-       '#0000FF' => 33.3
-     }.to_json,
-     probabilities: [33.3, 66.6, 99.9].to_json,
-     distrubution: 1
-   },
-   {
-     title: 'Стоимость покупки',
-     description: 'У нас есть гипотеза, что изменение стоимости покупки в приложении может повлять на нашу маржинальную прибыль',
-     key: 'price',
-     options: {
-       '10' => 75,
-       '20' => 10,
-       '50' => 5,
-       '5'  => 10
-     }.to_json,
-     probabilities: [75, 85, 90, 100].to_json,
-     distribution: 0
-   }
- ])
+  puts "Creating experiments..."
+
+  Experiment.create(
+    title: 'Цвет кнопки',
+    key: 'button_color',
+    options: {
+      '#FF0000' => 33.3,
+      '#00FF00' => 33.3,
+      '#0000FF' => 33.3
+    }
+  )
+
+  Experiment.create(
+    title: 'Стоимость покупки',
+    key: 'price',
+    options: {
+      '10' => 75,
+      '20' => 10,
+      '50' => 5,
+      '5'  => 10
+    },
+  )
+
+  puts "Expeiments count: #{Experiment.count}"
 end
 
 def create_experiments(count)
@@ -99,7 +96,7 @@ def add_device_tokens_to_experiments(count)
   puts "DeviceExperimentValues: #{DistributedOption.count}"
 end
 
-create_experiments(5)
-add_device_tokens_to_experiments(5)
+# create_experiments(1000)
+# add_device_tokens_to_experiments(100)
 
-#create_appbooster_data
+create_appbooster_data

@@ -13,11 +13,7 @@
   <body>
     <div id="toasts"></div>
     <div class="container">
-      <section class="sidebar">
-        <div class="sidebar__brand">
-          <span>АБ</span><span>-тесты<span>
-        </div>
-      </section>
+      <%= render Admin::Common::SidebarComponent.new %>
       <section class="main">
         <%= yield %>
       </section>

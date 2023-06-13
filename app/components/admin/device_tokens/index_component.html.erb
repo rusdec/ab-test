@@ -1,0 +1,13 @@
+<h1><%= @title %></h1>
+<%=
+  render Admin::DeviceTokens::Index::ItemsComponent.new(
+    items: @items,
+    items_total_count: @pagination.count
+  )
+%>
+<div class="actions">
+  <div>
+  </div>
+  <%= render Admin::Common::PaginationComponent.new(pagination: @pagination, resource: :device_tokens) %>
+</div>
+<pre id="api-output"></pre>
