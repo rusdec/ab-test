@@ -74,7 +74,22 @@ URL: */admin/experiments*
 
 URL: */admin/device_tokens*
 
+## Тесты
 
-### Пример страницы
+```
+DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rspec
+```
+
+```
+DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rspec --tag slow_becnhmark
+```
+
+## Rubocop
+
+```
+rubocop
+```
+
+## Пример страницы
 
 ![страница "Эксперименты"](https://cdn.test-bench.ru/cdn/ab-test-example-experiments-02.png)

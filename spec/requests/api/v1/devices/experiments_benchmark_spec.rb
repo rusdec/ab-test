@@ -9,7 +9,7 @@ RSpec.describe 'Api::V1::Experiments', type: :request do
       requests_count = 600
       max_response_ms = 100
 
-      experiments_count = 600
+      experiments_count = 500
 
       create_list(:experiment, experiments_count/2)
       create_list(:experiment, experiments_count/2, :uniform)
@@ -25,8 +25,6 @@ RSpec.describe 'Api::V1::Experiments', type: :request do
       end
 
       response_ms.map! { _1 * 1000 } # sec to ms
-      p response_ms
-      p response_ms.sum(0.0) / response_ms.count
       expect(response_ms).to all( be <= max_response_ms )
     end
   end

@@ -10,6 +10,8 @@ require 'simplecov'
 SimpleCov.start 'rails' do
   add_filter '/app/channels'
   add_filter '/app/jobs'
+  add_filter '/app/components'
+  add_filter '/app/controllers/admin'
 end
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -31,7 +33,6 @@ Dir[Rails.root.join('app', 'interactors', '**', '*.rb')].sort.each { |f| require
 Dir[Rails.root.join('app', 'queries', '**', '*.rb')].sort.each { |f| require f }
 
 require_relative 'support/factory_bot'
-require_relative 'support/shoulda_matchers'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.

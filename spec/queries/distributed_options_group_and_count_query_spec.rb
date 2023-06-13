@@ -22,14 +22,15 @@ RSpec.describe DistributedOptionsGroupAndCountQuery do
 
         { experiment_id: experiments[1].id, value: "big", count: 7 },
         { experiment_id: experiments[1].id, value: "small", count: 2 },
-      ]
+      ].sort { _1[:value] <=> _2[:value] } 
 
       experiments_relation = Experiment.where(id: experiments.map(&:id))
 
-      result = described_class.new(experiments_relation).call.to_a.map!(&:values)
+      result = described_class.new(experiments_relation).call
+        .to_a.map!(&:values)
+        .sort { _1[:value] <=> _2[:value] }
 
-      expect(result.sort { _1[:value] <=> _2[:value] })
-        .to eq(expected_result.sort { _1[:value] <=> _2[:value] })
+      expect(result).to eq(expected_result)
     end
   end
 end

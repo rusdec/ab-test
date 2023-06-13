@@ -4,7 +4,7 @@ RSpec.describe DeviceToken, type: :model do
   it { is_expected.to have_one_to_many(:distributed_options) }
   it { is_expected.to have_many_to_many(:experiments) }
 
-  describe 'validations' do
+  describe '#validate' do
     describe '#token' do
       it { is_expected.to validate_unique :token }
       it { is_expected.to validate_presence :token }

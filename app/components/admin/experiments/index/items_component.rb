@@ -26,18 +26,19 @@ module Admin
               result: exp.options.keys.each_with_object({}) do |option, obj|
                 percent_expected = exp.options[option]
                 count_real = distributed_options[option] || 0
+
                 if count_total == 0
                   count_expected = 0
                   percent_real = 0
                 else
-                  count_expected = ((percent_expected.to_d / 100) * count_total).ceil
+                  count_expected = ((percent_expected.to_d / 100) * count_total).round(1)
                   percent_real = ((count_real.to_d / count_total) * 100).round(0)
                 end
 
                 obj[option] = {
                   count_expected:,
                   count_real:,
-                  count_diff: count_real == 0 ? 0 : (count_real - count_expected).round(0),
+                  count_diff: count_real == 0 ? 0 : (count_real - count_expected).round(1),
                   percent_expected: percent_expected.round(0),
                   percent_real:,
                   percent_diff: percent_real == 0 ? 0 : (percent_real - percent_expected).round(0)

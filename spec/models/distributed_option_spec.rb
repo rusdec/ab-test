@@ -4,7 +4,7 @@ RSpec.describe DistributedOption, type: :model do
   it { is_expected.to have_many_to_one(:experiment) }
   it { is_expected.to have_many_to_one(:device_token) }
 
-  describe 'validations' do
+  describe '#validate' do
     describe '#value' do
       it { is_expected.to validate_presence :value }
       it { is_expected.to validate_min_length(1, :value) }

@@ -12,7 +12,7 @@ RSpec.describe Experiment, type: :model do
     expect(ValueDistributor).to have_received(expected_method).exactly(3).times
   end
 
-  describe 'validations' do
+  describe '#validate' do
     subject { build(:experiment) }
 
     describe '#title' do
