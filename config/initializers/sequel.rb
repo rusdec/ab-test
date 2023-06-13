@@ -6,14 +6,8 @@ DB = Sequel.connect(
   host: config['host'],
   port: config['port'],
   database: config['database'],
-  max_connections: 10,
+  max_connections: config['pool'],
   logger: Rails.logger
 )
 
 DB.extension(:pg_json)
-
-# sequel_pg
-if Sequel::Postgres.supports_streaming?
-  DB.extension(:pg_streaming)
-end
-

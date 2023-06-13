@@ -7,7 +7,7 @@ module Admin
     def index
       pagination, items = pagy(
         DeviceToken.dataset.order(Sequel.desc(:created_at)),
-        items: 9,
+        items: 11,
         count: DeviceToken.count
       )
 

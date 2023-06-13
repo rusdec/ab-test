@@ -13,8 +13,8 @@ module Admin
 
         def prepared_items
           @items.map do |exp|
-            exp_distributed_values = distributed_options_hash[exp.id] || {}
-            count_total = exp_distributed_values.values.sum || 0
+            distributed_options = distributed_options_hash[exp.id] || {}
+            count_total = distributed_options.values.sum || 0
 
             {
               id: exp.id,
@@ -24,13 +24,13 @@ module Admin
               created_at: exp.created_at,
               options: exp.options.keys,
               result: exp.options.keys.each_with_object({}) do |option, obj|
-                percent_expected = exp.options[option].to_d
-                count_real = exp_distributed_values[option] || 0
+                percent_expected = exp.options[option]
+                count_real = distributed_options[option] || 0
                 if count_total == 0
                   count_expected = 0
                   percent_real = 0
                 else
-                  count_expected = ((percent_expected.to_d / 100) * count_total).round(0)
+                  count_expected = ((percent_expected.to_d / 100) * count_total).ceil
                   percent_real = ((count_real.to_d / count_total) * 100).round(0)
                 end
 
@@ -38,7 +38,7 @@ module Admin
                   count_expected:,
                   count_real:,
                   count_diff: count_real == 0 ? 0 : (count_real - count_expected).round(0),
-                  percent_expected:,
+                  percent_expected: percent_expected.round(0),
                   percent_real:,
                   percent_diff: percent_real == 0 ? 0 : (percent_real - percent_expected).round(0)
                 }

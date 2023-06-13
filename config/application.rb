@@ -30,7 +30,7 @@ module AbTest
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    config.time_zone = "UTC"
+    config.time_zone = 'UTC'
     # config.eager_load_paths << Rails.root.join("extras")
 
     # Only loads a smaller set of middleware suitable for API only apps.
@@ -38,10 +38,17 @@ module AbTest
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
 
-    config.autoload_paths << Rails.root.join("app/interactors")
-    config.autoload_paths << Rails.root.join("app/queries")
-    config.autoload_paths << Rails.root.join("app/components")
-    config.autoload_paths << Rails.root.join("app/services")
-    config.autoload_paths << Rails.root.join("app/workers")
+    [
+      'app/interactors',
+      'app/queries',
+      'app/components',
+      'app/services'
+    ].each do |path|
+      config.autoload_paths << Rails.root.join(path)
+    end
+
+    config.after_initialize do
+      ::ValueDistributor.refresh_uniform_cache
+    end
   end
 end
