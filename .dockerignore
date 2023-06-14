@@ -1,0 +1,13 @@
+.ruby-version
+.ruby-gemset
+.rubocop.yml
+.git
+.gitattributes
+.gitignore
+.dockerignore
+Dockerfile*
+README.md
+log/
+tmp/
+coverage/
+docs/

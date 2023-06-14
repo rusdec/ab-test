@@ -1,45 +1,46 @@
 # Тестовое задание: АБ-тест
 
-## Подготовка
+## Запуск приложения
 
-**1. Установить ruby версии 3.2.1**
-
-**2. Установить Postgres**
-
-**3. Создать базы данных**
+**1. Создать файл .env в корне проекта**
 ```
-$ psql
-
-# CREATE DATABASE ab_test_development;
-# CREATE DATABASE ab_test_test;
+echo 'POSTGRES_USER=postgres' >> .env
+echo 'POSTGRES_PASSWORD=postgres' >> .env
+echo 'POSTGRES_PORT=5432' >> .env
+echo 'POSTGRES_HOST=db' >> .env
 ```
 
-## Установка
-
-**1. Установить gems:**
-```
-bundle install
-```
-
-**2. Произвести миграции и загрузить тестовые данные:**
-
-Если необходимо, то настройка подключения к БД задаётся переменными
-```
-DB_PORT: по-умолчани 5432
-DB_HOST: по-молчанию localhost
-DB_USERNAME: по-умолчанию ''
-DB_PASSWORD: по-умолчанию ''
-```
-см. файл config/database.yml
+**2. Запустить контейнер приложения и контейнер БД**
 
 ```
-DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rails db:reset
+docker-compose up -d
 ```
 
-**3. Запустить веб-приложение:**
+**3. Создать базы данных в контейнере БД**
 ```
-DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rails s
+docker-compose exec db psql -U postgres -h db -W -c 'create database ab_test_development'
+docker-compose exec db psql -U postgres -h db -W -c 'create database ab_test_production'
+docker-compose exec db psql -U postgres -h db -W -c 'create database ab_test_test'
 ```
+
+**4. Перезапустить контейнер приложения**
+```
+docker-compose restart web
+```
+
+**5. Произвести миграцию и загрузку демо-данных**
+
+```
+docker-compose exec web bundle exec rake db:migrate
+docker-compose exec web bundle exec rake db:seed
+```
+
+**6. Открыть адрес в браузере**
+
+```
+http://localhost:3000
+```
+---
 
 ## API
 
@@ -63,6 +64,7 @@ DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rail
   "price": "10"
 }
 ```
+---
 
 ## Страницы
 
@@ -74,22 +76,8 @@ URL: */admin/experiments*
 
 URL: */admin/device_tokens*
 
-## Тесты
-
-```
-DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rspec
-```
-
-```
-DB_HOST=%host% DB_PORT=%port% DB_USERNAME=%username% DB_PASSWORD=%password% rspec --tag slow_becnhmark
-```
-
-## Rubocop
-
-```
-rubocop
-```
+---
 
 ## Пример страницы
 
-![страница "Эксперименты"](https://cdn.test-bench.ru/cdn/ab-test-example-experiments-02.png)
+![страница "Эксперименты"](https://cdn.test-bench.ru/cdn/ab-test-example-experiments-03.png)

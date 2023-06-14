@@ -1,0 +1,21 @@
+FROM ruby:3.2.2-alpine
+
+RUN apk add --update tzdata && \
+    cp /usr/share/zoneinfo/UTC /etc/localtime && \
+    echo "UTC" > /etc/timezone
+
+RUN apk add --update --virtual runtime-deps postgresql-client libffi-dev readline
+
+WORKDIR /tmp
+ADD ./web/Gemfile* ./
+
+RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev && \
+    bundle install --jobs=2 && \
+    apk del build-deps
+
+RUN mkdir /usr/local/app
+
+WORKDIR /usr/local/app
+COPY ./web/* ./
+
+ENTRYPOINT ["./entrypoints/web.entrypoint.sh"]
