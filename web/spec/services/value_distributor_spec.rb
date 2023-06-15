@@ -27,7 +27,7 @@ RSpec.describe ValueDistributor do
         create(:distributed_option, experiment: experiment, value: 'y')
         create(:distributed_option, experiment: experiment, value: 'y')
 
-        described_class::UniformStrategy.instance.refresh_cache
+        described_class.refresh_uniform_cache
 
         values = []
         3.times { values << described_class.next_value(experiment) }

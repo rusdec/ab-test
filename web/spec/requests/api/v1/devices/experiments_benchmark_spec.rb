@@ -14,7 +14,7 @@ RSpec.describe 'Api::V1::Experiments', type: :request do
       create_list(:experiment, experiments_count/2)
       create_list(:experiment, experiments_count/2, :uniform)
 
-      ValueDistributor::UniformStrategy.instance.refresh_cache
+      ValueDistributor.refresh_uniform_cache
 
       response_ms = []
       requests_count.times do |n|

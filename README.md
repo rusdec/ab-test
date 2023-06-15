@@ -78,6 +78,30 @@ URL: */admin/device_tokens*
 
 ---
 
+## Тесты
+
+**1. Произвести миграции**
+
+```
+docker-compose exec web bundle exec rake db:test:prepare
+```
+
+**2. Запустить тесты**
+
+- общие тесты: `docker-compose exec web rspec`
+- тесты производительности: `docker-compose exec web rspec --tag slow_benchmark`
+
+---
+
+## Документация
+
+В каталоге ![web/docs](/web/docs) есть следующие drawio-схемы:
+
+- ![Схема связей в таблице](/web/docs/table-schema.drawio)
+- ![Схема обработки запроса](/web/docs/handle-request-schema.drawio)
+
+---
+
 ## Пример страницы
 
 ![страница "Эксперименты"](https://cdn.test-bench.ru/cdn/ab-test-example-experiments-03.png)
