@@ -99,10 +99,10 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => toastElement.remove(), 3000)
   }
 
-  const href = window.location.href;
-  if (href.includes('admin/experiments')) {
+  const path = window.location.pathname;
+  if (path.match('^/admin/experiments/?$')) {
     experimentsPage(createToast);
-  } else if (href.includes('admin/device_tokens')) {
+  } else if (path.match('^/admin/device_tokens/?$')) {
     deviceTokensPage(createToast);
   }
 });

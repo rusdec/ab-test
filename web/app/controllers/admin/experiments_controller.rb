@@ -1,8 +1,6 @@
 module Admin
-  class ExperimentsController < ApplicationController
+  class ExperimentsController < BaseController
     include Pagy::Backend
-
-    layout 'admin'
 
     def index
       pagination, items = pagy(

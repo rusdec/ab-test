@@ -1,8 +1,6 @@
 module Admin
-  class DeviceTokensController < ApplicationController
+  class DeviceTokensController < BaseController
     include Pagy::Backend
-
-    layout 'admin'
 
     def index
       pagination, items = pagy(

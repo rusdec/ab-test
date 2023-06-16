@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :experiments, only: :index
     resources :device_tokens, only: :index
+
+    get '/*path', controller: :base, action: :not_found
   end
 
   namespace :api do
