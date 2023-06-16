@@ -12,7 +12,10 @@
   </head>
   <body>
     <div id="toasts"></div>
-    <div class="container">
+    <div class="container container--mobile">
+      <h1>Только на большом экране компьютера <span class="smile">:)</span></h1>
+    </div>
+    <div class="container container--desktop">
       <%= render Admin::Common::SidebarComponent.new %>
       <section class="main">
         <%= yield %>

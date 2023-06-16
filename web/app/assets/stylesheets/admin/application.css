@@ -197,6 +197,28 @@ ul.pagination {
   border-color: #fb90a7;
 } 
 
-.header-404 .smile {
+.container--mobile {
+  display: none;
+}
+
+.container--mobile h1 {
+  text-align: center;
+  padding: 15px;
+}
+
+.smile {
   color: #f76b8a;
+}
+
+@media screen and (max-width: 825px) {
+  .container--mobile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container--desktop {
+    display: none;
+  }
 }
