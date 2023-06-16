@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
-class Admin::NotFoundComponent < ViewComponent::Base
-
+module Admin
+  class NotFoundComponent < ViewComponent::Base
+  end
 end

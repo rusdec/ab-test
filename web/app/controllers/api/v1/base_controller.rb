@@ -5,6 +5,10 @@ module Api
         render json: { error: 'Empty token' }, status: :bad_request
       end
 
+      def not_found
+        render json: { error: 'not found' }, status: :not_found
+      end
+
       protected
 
       def token!

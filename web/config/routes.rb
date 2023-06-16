@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       namespace :devices do
         resources :experiments, only: :index
       end
+
+      match '/*path', controller: :base, action: :not_found, via: [:get, :post, :put, :patch, :delete]
     end
   end
 end
