@@ -8,6 +8,7 @@ echo 'POSTGRES_USER=postgres' >> .env
 echo 'POSTGRES_PASSWORD=postgres' >> .env
 echo 'POSTGRES_PORT=5432' >> .env
 echo 'POSTGRES_HOST=db' >> .env
+echo 'RAILS_ENV=development' >> .env
 ```
 
 **2. Запустить контейнер приложения и контейнер БД**
@@ -28,10 +29,9 @@ docker-compose exec db psql -U postgres -h db -W -c 'create database ab_test_tes
 docker-compose restart web
 ```
 
-**5. Произвести миграцию и загрузку демо-данных**
+**5. Произвести загрузку демо-данных**
 
 ```
-docker-compose exec web bundle exec rake db:migrate
 docker-compose exec web bundle exec rake db:seed
 ```
 
