@@ -11,24 +11,6 @@
       <br/>
     <% end %>
   </td>
-  <td class="experiment__count-expected">
-    <% options.each do |option| %>
-      <%= count_expected(option) %>
-      <br/>
-    <% end %>
-  </td>
-  <td class="experiment__count-real">
-    <% options.each do |option| %>
-      <strong><%= count_real(option) %></strong>
-      <br/>
-    <% end %>
-  </td>
-  <td class="experiment__count-diff">
-    <% options.each do |option| %>
-      <%= signed_format(count_diff(option)) %>
-      <br/>
-    <% end %>
-  </td>
   <td class="experiment__percent-expected">
     <% options.each do |option| %>
       <%= percent_format(percent_expected(option)) %>
@@ -46,6 +28,12 @@
       <%= percent_diff(option)
             .then { signed_format(_1) }
             .then { percent_format(_1) } %>
+      <br/>
+    <% end %>
+  </td>
+  <td class="experiment__count-real">
+    <% options.each do |option| %>
+      <strong><%= count_real(option) %></strong>
       <br/>
     <% end %>
   </td>

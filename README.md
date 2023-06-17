@@ -88,8 +88,8 @@ docker-compose exec web bundle exec rake db:test:prepare
 
 **2. Запустить тесты**
 
-- общие тесты: `docker-compose exec web rspec`
-- тесты производительности: `docker-compose exec web rspec --tag slow_benchmark`
+- общие тесты: `docker-compose exec -e "RAILS_ENV=test" web rspec`
+- тесты производительности: `docker-compose exec -e "RAILS_ENV=test" web rspec --tag slow_benchmark`
 
 ---
 
@@ -104,4 +104,4 @@ docker-compose exec web bundle exec rake db:test:prepare
 
 ## Пример страницы
 
-![страница "Эксперименты"](https://cdn.test-bench.ru/cdn/ab-test-example-experiments-03.png)
+![страница "Эксперименты"](https://cdn.test-bench.ru/cdn/ab-test-example-experiments-04.png)

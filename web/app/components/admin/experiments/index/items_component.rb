@@ -12,37 +12,30 @@ module Admin
         end
 
         def prepared_items
-          @items.map do |exp|
-            distributed_options = distributed_options_hash[exp.id] || {}
-            count_total = distributed_options.values.sum || 0
+          @items.map do |experiment|
+            distributed_options = distributed_options_hash[experiment.id]
+            count_total = distributed_options.values.sum
 
             {
-              id: exp.id,
-              title: exp.title,
-              key: exp.key,
+              id: experiment.id,
+              title: experiment.title,
+              key: experiment.key,
               devices_total_count: count_total,
-              created_at: exp.created_at,
-              options: exp.options.keys,
-              result: exp.options.keys.each_with_object({}) do |option, obj|
-                percent_expected = exp.options[option]
-                count_real = distributed_options[option] || 0
+              created_at: experiment.created_at,
+              options: experiment.options.keys,
+              result: experiment.options.keys.each_with_object({}) do |option, accum|
+                percent_expected = experiment.options[option].round(1)
+                count_real = distributed_options[option]
 
                 if count_total == 0
-                  count_expected = 0
                   percent_real = 0
+                  percent_diff = 0
                 else
-                  count_expected = ((percent_expected.to_d / 100) * count_total).round(1)
-                  percent_real = ((count_real.to_d / count_total) * 100).round(0)
+                  percent_real = ((count_real.to_d / count_total) * 100).round(1)
+                  percent_diff = (percent_real - percent_expected).round(1)
                 end
 
-                obj[option] = {
-                  count_expected:,
-                  count_real:,
-                  count_diff: count_real == 0 ? 0 : (count_real - count_expected).round(1),
-                  percent_expected: percent_expected.round(0),
-                  percent_real:,
-                  percent_diff: percent_real == 0 ? 0 : (percent_real - percent_expected).round(0)
-                }
+                accum[option] = { count_real:, percent_expected:, percent_real:, percent_diff: }
               end
             }
           end
@@ -52,8 +45,8 @@ module Admin
 
         def distributed_options_hash
           @distributed_options_hash ||= DistributedOptionsGroupAndCountQuery.new(@items)
-            .call.each_with_object({}) do |item, obj|
-              obj[item.experiment_id] ||= {}
+            .call
+            .each_with_object(Hash.new{ |h, k| h[k] = Hash.new(0) }) do |item, obj|
               obj[item.experiment_id][item[:value]] = item[:count]
             end
         end

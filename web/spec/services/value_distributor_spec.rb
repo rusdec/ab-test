@@ -19,18 +19,24 @@ RSpec.describe ValueDistributor do
       end
 
       it 'uses already destributed options counts' do
-        experiment = create(:experiment, :uniform, options: { x: 33.3, y: 33.3, z: 33.3 })
+        experiments = [
+          create(:experiment, :uniform, options: { x: 33.3, y: 33.3, z: 33.3 }),
+          create(:experiment, :uniform, options: { x: 33.3, y: 33.3, z: 33.3 })
+        ]
 
-        create(:distributed_option, experiment: experiment, value: 'x')
-        create(:distributed_option, experiment: experiment, value: 'x')
-        create(:distributed_option, experiment: experiment, value: 'x')
-        create(:distributed_option, experiment: experiment, value: 'y')
-        create(:distributed_option, experiment: experiment, value: 'y')
+        create(:distributed_option, experiment: experiments[0], value: 'x')
+        create(:distributed_option, experiment: experiments[0], value: 'x')
+        create(:distributed_option, experiment: experiments[0], value: 'x')
+        create(:distributed_option, experiment: experiments[0], value: 'y')
+        create(:distributed_option, experiment: experiments[0], value: 'y')
+        create(:distributed_option, experiment: experiments[1], value: 'z')
+        create(:distributed_option, experiment: experiments[1], value: 'z')
+        create(:distributed_option, experiment: experiments[1], value: 'z')
 
         described_class.refresh_uniform_cache
 
         values = []
-        3.times { values << described_class.next_value(experiment) }
+        3.times { values << described_class.next_value(experiments[0]) }
 
         expect(values).to eq(['z', 'z', 'y']).or eq(['z', 'z', 'z'])
       end
