@@ -5,28 +5,24 @@ module Admin
     module Index
       class ItemComponent < ViewComponent::Base
         class << self
-          def result_options(*options)
-            options.each do |result_option|
-              define_method result_option do |key|
-                result[key][result_option]
+          def statistics(*statistic_names)
+            statistic_names.each do |statistic_name|
+              define_method statistic_name do |experiment_option|
+                @item[:statistics][experiment_option][statistic_name]
               end
             end
           end
         end
 
-        result_options :percent_expected,
-                       :percent_real,
-                       :percent_diff,
-                       :count_expected,
-                       :count_real,
-                       :count_diff
+        statistics :percent_expected,
+                   :percent_real,
+                   :percent_diff,
+                   :count_expected,
+                   :count_real,
+                   :count_diff
 
         def initialize(item:)
           @item = item
-        end
-
-        def result
-          @item[:result]
         end
 
         def options

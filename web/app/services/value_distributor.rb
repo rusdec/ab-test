@@ -26,7 +26,7 @@ class ValueDistributor
 
     def fetch_counters
       ::DistributedOptionsGroupAndCountQuery.new(Experiment.uniform).call
-        .each_with_object(Hash.new { |h, k| h[k] = {} }) { |option, accum| add_distributed_counts(option, accum) }
+        .each_with_object(Hash.new { |h, k| h[k] = {} }) { |*args| add_distributed_counts(*args) }
         .tap { add_undistributed_counts(_1) }
     end
 
